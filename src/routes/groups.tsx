@@ -7,8 +7,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { mcpCall } from "@/lib/mcp/mcp.functions";
 import { toast } from "sonner";
 import {
-  Plus, Search, MoreVertical, Users, Wallet,
-  TrendingDown, TrendingUp, ChevronDown, X, Check,
+  Plus, Search, MoreVertical, Users,
+  ChevronDown, X, Check,
 } from "lucide-react";
 
 export const Route = createFileRoute("/groups")({ component: () => <AppShell><GroupsPage /></AppShell> });
@@ -152,8 +152,8 @@ function GroupsPage() {
     if (!selected && filtered.length > 0) setSelected(filtered[0]);
   }, [filtered, selected]);
 
-  // KPI totals across all groups
-  const totalGroups = groupsQ.data?.length ?? 0;
+  // KPI totals across all groups — kept for potential future use
+  const _totalGroups = groupsQ.data?.length ?? 0;
 
   return (
     <div className="space-y-5">
@@ -169,14 +169,6 @@ function GroupsPage() {
         >
           <Plus className="size-4" /> New Group
         </button>
-      </div>
-
-      {/* KPI cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard icon={<Users className="size-5 text-primary" />} bg="bg-primary/10" label="Total Groups" value={String(totalGroups)} sub="Active groups" />
-        <KpiCard icon={<Wallet className="size-5 text-info" />} bg="bg-info/10" label="Total Spent" value={groupsQ.isLoading ? "…" : "—"} sub="Across all groups" />
-        <KpiCard icon={<TrendingUp className="size-5 text-success" />} bg="bg-success/10" label="You Are Owed" value="—" sub="Across all groups" />
-        <KpiCard icon={<TrendingDown className="size-5 text-warning" />} bg="bg-warning/10" label="You Owe" value="—" sub="Across all groups" />
       </div>
 
       {/* Main content: list + detail */}
@@ -565,27 +557,3 @@ function GroupDetail({
   );
 }
 
-// ---------------------------------------------------------------------------
-// KPI card
-// ---------------------------------------------------------------------------
-
-function KpiCard({ icon, bg, label, value, sub }: {
-  icon: React.ReactNode;
-  bg: string;
-  label: string;
-  value: string;
-  sub: string;
-}) {
-  return (
-    <div className="glass rounded-2xl p-4 flex items-center gap-4">
-      <div className={`size-12 rounded-xl grid place-items-center shrink-0 ${bg}`}>
-        {icon}
-      </div>
-      <div className="min-w-0">
-        <div className="text-xs text-muted-foreground">{label}</div>
-        <div className="text-xl font-bold tracking-tight">{value}</div>
-        <div className="text-[11px] text-muted-foreground">{sub}</div>
-      </div>
-    </div>
-  );
-}
