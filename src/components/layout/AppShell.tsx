@@ -81,9 +81,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       const r = await callTool({ data: { apiKey: user!.apiKey, name: "list_my_pending_approvals", args: {} } }) as any;
       if (!r.ok) { checkExpiry(r.error ?? ""); return 0; }
       const data = r.data as unknown;
-      const list = Array.isArray((data as { pending?: unknown[] })?.pending)
-        ? (data as { pending: unknown[] }).pending
-        : Array.isArray(data) ? data : [];
+      // list_my_pending_approvals returns a plain array of transaction rows
+      const list = Array.isArray(data) ? data : [];
       return list.length;
     },
   });
