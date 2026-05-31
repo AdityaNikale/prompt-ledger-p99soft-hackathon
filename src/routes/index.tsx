@@ -96,7 +96,7 @@ function DashboardInner() {
     queryFn: async () => {
       const r = await callTool({ data: { apiKey: apiKey!, name: "list_expenses", args: { start_date: monthStart, end_date: monthEnd } } });
       if (!r.ok) throw new Error(r.error);
-      return toArray(r.data).slice(0, 8);
+      return toArray(r.data).slice(0, 6);
     },
   });
 
